@@ -1,0 +1,40 @@
+@startuml 床域隔离协议
+skinparam DefaultTextAlignment center
+title 床域隔离协议
+
+start
+
+:当前时间检测;
+
+if (是否在12:40-13:40?) then (是)
+    :允许进入床域;
+    :执行午间休息策略;
+
+else (否)
+
+    if (是否尝试上床?) then (是)
+        :禁止行为;
+        :标记违规;
+
+        note right
+            下午上床 = 高风险行为
+        end note
+    else (否)
+        :正常活动或任务;
+    endif
+
+endif
+
+if (是否发生违规?) then (是)
+    :触发惩罚机制;
+    note right
+    其实也没什么惩罚,
+    还是心不诚, 具体
+    请看./贪心与动态规划/
+    动态规划.puml, 
+    贪心.puml
+    end note
+endif
+
+stop
+@enduml

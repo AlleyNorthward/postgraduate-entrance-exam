@@ -1,0 +1,57 @@
+@startuml 午间休息策略
+skinparam DefaultTextAlignment center
+title 中午休息控制系统(12:40 - 13:40)
+
+start
+
+:进入中午时间段;
+
+:检查当前任务情况;
+
+if (是否有高优先级任务?) then (有)
+    :执行高优先级任务;
+
+    if (当前时间 < 13:30?) then (是)
+        :允许上床;
+    else (否)
+        :不允许上床;
+        :继续保持清醒状态;
+        stop
+    endif
+
+else (无)
+    :直接进入上床判断;
+endif
+
+:上床;
+
+note right
+    上床规则：
+    - 不允许直接睡觉
+    - 优先进行轻任务（Anki）
+end note
+
+repeat
+    :执行轻任务(Anki复习);
+
+    if (是否强烈困意?) then (是)
+        :允许短暂眯一会;
+    endif
+
+    if (当前时间 >= 13:40?) then (是)
+        :强制结束休息;
+        break
+    endif
+
+repeat while (仍在床上?) is (是)
+
+:起床;
+
+note right
+    强制规则：
+    - 不允许赖床
+    - 立即离开床环境
+end note
+
+stop
+@enduml

@@ -1,0 +1,67 @@
+@startuml 过度规划
+title 考研整体规划过度建模时的解决流程图
+skinparam DefaultTextAlignment center
+
+skinparam shadowing false
+skinparam backgroundColor white
+skinparam activity {
+  BorderColor #2D3436
+  ArrowColor #2D3436
+  BackgroundColor #F8F9FA
+  FontSize 14
+}
+
+start
+
+:察觉到自己又想\n“先把整体考研系统规划好”;
+:停 10 秒;
+:命名当前状态\n“我在追求万能模型”;
+
+partition "规划层" {
+  :检查当前想法是否在扩张模型;
+  if (是否已超过规划时间盒?) then (是)
+    :停止继续扩模;
+    :把规划冻结为当前版本;
+  else (否)
+    :继续但只允许补充必要信息;
+  endif
+}
+
+partition "约束层" {
+  if (这个规划能否直接支持今天执行?) then (能)
+    :保留当前结构;
+  else (不能)
+    :压缩到最小可执行结构;
+    :只保留统一模板\n(来源/错误点/误解/下一步/复习时间);
+  endif
+}
+
+partition "执行层" {
+  :把目标改写成今天的一步;
+  :选择一个 25 分钟时间盒;
+  :开始最小动作\n(例如记 3 条样本 / 学 1 个小节 / 做 5 道题);
+  repeat
+    :持续执行当前动作;
+    if (又冒出“还要再设计一下模型”念头?) then (是)
+      :不展开讨论;
+      :只记一条待优化项;
+      :回到当前动作;
+    else (否)
+      :继续执行;
+    endif
+  repeat while (时间盒未结束?) is (是)
+}
+
+partition "复盘层" {
+  :快速复盘 2 分钟;
+  if (当前模板真的影响效率?) then (是)
+    :把改动放到周复盘时处理;
+  else (否)
+    :保持当前模板不变;
+  endif
+  :记录一条真实样本;
+  :结束;
+}
+
+stop
+@enduml

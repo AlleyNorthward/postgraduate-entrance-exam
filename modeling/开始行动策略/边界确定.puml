@@ -1,0 +1,91 @@
+@startuml 边界确认
+title 考研执行系统（学习 / 记录 / 复盘 / 规划分离）
+skinparam DefaultTextAlignment center
+
+skinparam shadowing false
+skinparam backgroundColor white
+skinparam activity {
+  BorderColor #2D3436
+  ArrowColor #2D3436
+  BackgroundColor #F8F9FA
+  FontSize 14
+}
+
+start
+
+partition "早晨启动" {
+  :起床;
+  :简单回顾今天计划;
+  :进入学习模式;
+}
+
+partition "上午学习 7:20 - 12:00" {
+  :专注学习(不做Anki / 不问GPT);
+
+  repeat
+    :遇到问题 or 想优化方法?;
+    if (是) then (记录)
+      :快速记录"现场"\n(最小干扰);
+    else (否)
+      :继续学习;
+    endif
+  repeat while (学习时间未结束?) is (是)
+}
+
+partition "中午处理层 12:00 - 14:00" {
+
+  :快速复盘(5~10min);
+  :只分析关键问题\n(思想 / 行为 / 策略);
+
+  :整理"现场记录";
+  :制作Anki卡;
+
+  :必要时问GPT\n(集中处理问题);
+
+}
+
+partition "下午学习 14:00 - 20:00" {
+
+  :专注学习(同上午规则);
+
+  repeat
+    :遇到问题?;
+    if (是) then (记录)
+      :快速记录现场;
+    else (否)
+      :继续学习;
+    endif
+  repeat while (学习时间未结束?) is (是)
+}
+
+partition "晚间处理层 20:00 - 22:00" {
+
+  :整理下午记录;
+  :制作Anki卡;
+  :补充理解(可问GPT);
+
+}
+
+partition "夜间收束 22:00 - 23:00" {
+
+  :复盘(10min);
+  :分析下午 + 全天表现;
+
+  :评价今天(是否偏离系统?);
+
+  :制定明日计划\n(只到“可执行粒度”);
+
+}
+
+partition "长期循环" {
+
+  :每周复盘;
+  :总结问题模式 / 调整策略;
+
+  :每月复盘;
+  :评估整体方向与进度;
+
+}
+
+stop
+@enduml

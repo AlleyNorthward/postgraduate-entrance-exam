@@ -1,0 +1,54 @@
+@startuml 开始
+title 不要等到完美再开始
+skinparam DefaultTextAlignment center
+
+skinparam shadowing false
+skinparam backgroundColor white
+skinparam activity {
+  BorderColor #2D3436
+  ArrowColor #2D3436
+  BackgroundColor #F8F9FA
+  FontSize 14
+}
+
+start
+:觉察到念头\n“等我规划好了再开始”;
+:停 10 秒\n不要继续往下想;
+:给念头贴标签\n"这是完美主义 / 启动拖延";
+note left 
+关键思索点
+我将在[什么时间]
+的[什么地点]进行
+[什么行动]
+end note
+
+note right
+**你的顾虑是什么?**
+英语单词不愿意开始,
+是因为没有找到好的
+记忆单词的方案; 408
+不愿意开始, 是因为没有
+归纳好看书的策略;
+这是问题吗? 你都没开始
+能有什么顾虑呢? 这些
+肯定不是学习要思考的.
+需要单独拿出来时间分析的.
+单词怎么背? 怎么有效
+看书, 跟学习无关!
+只需要学习时, 将问题速度
+记录下来, 然后后续复盘时
+认真分析原因即可!
+end note
+
+if (现在能否立刻做一个\n5~10 分钟动作?) then (能)
+  :选"最小可执行动作";
+  :只做 5~10 分钟;
+else (不能)
+  :把任务再切一层;
+  :只回答一个问题：\n"下一步最小动作是什么?";
+  :写出 1 个具体动作\n(可见、可做、可计时);
+  :设置 15~30 分钟时间盒;
+endif
+
+stop
+@enduml

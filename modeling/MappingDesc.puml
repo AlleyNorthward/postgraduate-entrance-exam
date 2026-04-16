@@ -1,0 +1,10 @@
+@startuml MappingDesc
+class MappingDesc {
+    + id
+    + 知识与理解
+    + 题目汇总
+    + 错题汇总
+    + 创立时间
+    + 关联Mapping
+}
+@enduml

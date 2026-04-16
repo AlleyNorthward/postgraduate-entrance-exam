@@ -1,0 +1,48 @@
+@startuml 何时复习
+skinparam DefaultTextAlignment center
+title 空余时间 + 复习触发系统
+
+rectangle 何时复习{
+start
+:检测当前时间状态;
+if (是否空余时间?) then (是)
+    :判断当前时间段;
+    if (是否为睡前/午休/晚间?) then (是)
+        :检查是否有可复习卡片;
+        if (有空余卡片?) then (是)
+            :进入 Anki 复习;
+        else (否)
+            :睡觉休息, 不准玩手机\n(具体怎么干?);
+            note right
+            在./休息/晚间
+            休息策略.puml中
+            end note
+        endif
+
+    else (否)
+        :检查是否有更高优先级任务;
+        note right
+            高优先级任务指的是
+            作业, 实验报告等, 
+            优先完成这些之后, 
+            再去复习Anki卡.
+        end note
+
+        if (有更高优先级任务?) then (是)
+            :执行其他任务;
+            note left 
+                干就完了, 别考虑太多,
+                与其担心怎样被影响, 不
+                如提前弄完, 更省心.
+            end note
+        else (否)
+        :进入Anki复习;
+        endif
+    endif
+
+else (否)
+    :非空余时间 → 不复习\n认真搞好当下的.;
+endif
+stop
+}
+@enduml

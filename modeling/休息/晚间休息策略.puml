@@ -1,0 +1,72 @@
+@startuml 晚间休息策略
+skinparam DefaultTextAlignment center
+title 睡前行为控制 + Anki复习系统
+
+start
+
+:当前时间检测;
+
+if (是否 >= 23:00?) then (是)
+
+    :进入[睡前缓冲模式];
+
+    note right
+        允许任务:
+        - Anki复习（轻量）
+        - 单词背诵
+        - 简单回顾
+        
+        禁止任务:
+        - 视频/社交媒体
+        - 复杂学习/写作
+    end note
+
+    if (是否在床上?) then (是)
+        :手机进入勿扰模式;
+        :仅保留闹钟功能;
+
+        if (是否已完成轻任务?) then (是)
+            :停止使用手机;
+            :准备入睡;
+        else (否)
+            :执行轻任务(Anki/单词);
+
+            note right
+            未执行完不用担心,
+            第二天需要执行完
+            之前未复习完的卡,
+            才能添加新卡.
+            end note
+        endif
+
+    else (否)
+        :进行睡前准备流程;
+        :刷牙/整理/洗漱;
+        :进入床上阶段;
+    endif
+
+else (否)
+
+    :进入[白天/正常模式];
+
+    if (是否空余时间?) then (是)
+        if (是否高优先级任务?) then (是)
+            :执行作业/学习任务;
+        else (否)
+            :Anki复习/学习;
+        endif
+    else (否)
+        :专注当前任务;
+    endif
+    stop
+
+endif
+
+if (时间 == 23:30) then (是)
+    :强制进入睡眠状态;
+    :停止所有屏幕活动;
+    :手机仅保留闹钟;
+endif
+stop
+
+@enduml

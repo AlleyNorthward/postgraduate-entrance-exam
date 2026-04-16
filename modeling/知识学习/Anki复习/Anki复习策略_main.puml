@@ -1,0 +1,33 @@
+@startuml Anki复习策略
+skinparam DefaultTextAlignment center
+title 复习层面策略活动图
+
+rectangle 主要复习图{
+    start
+    repeat
+    :Anki复习\n(什么时候复习?);
+    note left
+    在./知识复习/Anki复习
+    /何时复习.puml中
+    end note
+    if (是否记住?) then (是)
+    :正常间隔复习;
+    else (否 / 遗忘)
+    :去 GitHub 查 Mapping;
+    :查找 GitHub 仓库\n(知识 \ 理解 \ 错题 \ 题目);
+    :回顾知识内容\n(具体怎么回顾?);
+    note left
+    在./知识复习/Anki复习
+    /回顾知识.puml中
+    end note
+    :重新理解\n(具体怎么理解?);
+    note left
+    在./知识复习/Anki复习
+    /理解知识.puml中
+    end note
+    :更新 / 新增 Anki 卡片;
+    stop
+    endif
+    repeat while(继续复习?) is (是)
+}
+@enduml
