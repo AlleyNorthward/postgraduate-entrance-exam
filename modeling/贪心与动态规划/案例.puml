@@ -1,4 +1,4 @@
-@startuml 行为案例对照系统
+@startuml 案例
 title 行为案例（正向 vs 反向）
 
 class 场景 {
