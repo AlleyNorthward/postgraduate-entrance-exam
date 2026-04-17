@@ -2,35 +2,50 @@
   {
     "id": 1,
     "question": "1+1=?",
-    "answer": "2"
+    "answer": "2",
+    "error_count": 10,
+    "timeout_count": 1,
+    "train_count": 10
   },
   {
     "id": 2,
     "question": "2+2=?",
-    "answer": "4"
+    "answer": "4",
+    "error_count": 10,
+    "timeout_count": 0,
+    "train_count": 10
   },
   {
     "id": 3,
     "question": "3+3=?",
-    "answer": "6"
+    "answer": "6",
+    "error_count": 10,
+    "timeout_count": 1,
+    "train_count": 10
   },
   {
-    "id":4,
+    "id": 4,
     "question": [
       "数组测试,",
       "诶嘿."
     ],
-    "answer": "enen"
+    "answer": "enen",
+    "error_count": 10,
+    "timeout_count": 1,
+    "train_count": 10
   },
   {
-    "id":5,
-    "question":[
+    "id": 5,
+    "question": [
       "嘿嘿嘿哈, ",
       "嗯嗯"
     ],
-    "answer":[
+    "answer": [
       "hello, ",
       "很"
-    ]
+    ],
+    "error_count": 10,
+    "timeout_count": 0,
+    "train_count": 10
   }
 ]

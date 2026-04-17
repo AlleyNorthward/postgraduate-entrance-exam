@@ -9,22 +9,6 @@ ASSETS_DIR = Path("assets")
 EXPORT_DIR = Path("export")
 DRAW_COUNT = 50
 
-def ensure_question_stats(q: Dict[str, Any]) -> None:
-    if "error_count" not in q:
-        q["error_count"] = 0
-    if "timeout_count" not in q:
-        q["timeout_count"] = 0
-    if "train_count" not in q:
-        q["train_count"] = 0
-
-
-def save_assets_questions(json_path: Path, questions: List[Dict[str, Any]]) -> None:
-    try:
-        with json_path.open("w", encoding="utf-8") as f:
-            json.dump(questions, f, ensure_ascii=False, indent=2)
-    except Exception as e:
-        print(f"写回 assets 失败: {e}")
-
 
 def load_questions_from_file(json_path: Path) -> List[Dict[str, Any]]:
     with json_path.open("r", encoding="utf-8") as f:
@@ -52,15 +36,10 @@ def normalize_question(item: Dict[str, Any]) -> Dict[str, Any]:
     if "answer" not in item:
         raise ValueError(f"题目缺少 answer 字段: {item}")
 
-    ensure_question_stats(item)
-
     return {
         "id": item["id"],
         "question": item["question"],
-        "answer": item["answer"],
-        "error_count": item.get("error_count", 0),
-        "timeout_count": item.get("timeout_count", 0),
-        "train_count": item.get("train_count", 0),
+        "answer": item["answer"]
     }
 
 
@@ -138,9 +117,7 @@ def format_multiline_text(value: Union[str, List[Any]]) -> str:
 def run_quiz_50_times(
     questions: List[Dict[str, Any]],
     reaction_time_limit_seconds: Optional[float],
-    raw_questions_ref: List[Dict[str, Any]],   # 新增：用于回写
 ) -> Tuple[List[Dict[str, Any]], List[Dict[str, Any]]]:
-
     if not questions:
         print("题库为空,无法抽题.")
         return [], []
@@ -188,17 +165,6 @@ def run_quiz_50_times(
 
         qid_text = str(q["id"])
 
-        for rq in raw_questions_ref:
-            if str(rq["id"]) == qid_text:
-                rq["train_count"] += 1
-
-                if judge == "0":
-                    rq["error_count"] += 1
-
-                if is_timeout:
-                    rq["timeout_count"] += 1
-                break
-
         if judge == "0":
             if qid_text not in recorded_ids:
                 wrong_records.append(
@@ -237,13 +203,7 @@ def process_single_json(json_path: Path, reaction_time_limit_seconds: Optional[f
     raw_questions = load_questions_from_file(json_path)
     questions = [normalize_question(item) for item in raw_questions]
 
-    wrong_records, timeout_records = run_quiz_50_times(
-        questions,
-        reaction_time_limit_seconds,
-        raw_questions
-    )
-
-    save_assets_questions(json_path, raw_questions)
+    wrong_records, timeout_records = run_quiz_50_times(questions, reaction_time_limit_seconds)
 
     relative_path = json_path.relative_to(ASSETS_DIR)
     export_path = EXPORT_DIR / relative_path

@@ -5,16 +5,16 @@
       "question": "1+1=?",
       "answer": "2",
       "user_answer": "0",
-      "elapsed_seconds": 1.371381,
+      "elapsed_seconds": 0.865263,
       "reaction_time_limit_seconds": 1.0,
-      "is_timeout": true
+      "is_timeout": false
     },
     {
       "id": 2,
       "question": "2+2=?",
       "answer": "4",
       "user_answer": "0",
-      "elapsed_seconds": 0.406491,
+      "elapsed_seconds": 0.991977,
       "reaction_time_limit_seconds": 1.0,
       "is_timeout": false
     },
@@ -23,7 +23,7 @@
       "question": "3+3=?",
       "answer": "6",
       "user_answer": "0",
-      "elapsed_seconds": 1.829404,
+      "elapsed_seconds": 2.585761,
       "reaction_time_limit_seconds": 1.0,
       "is_timeout": true
     },
@@ -35,9 +35,9 @@
       ],
       "answer": "enen",
       "user_answer": "0",
-      "elapsed_seconds": 2.326298,
+      "elapsed_seconds": 0.213117,
       "reaction_time_limit_seconds": 1.0,
-      "is_timeout": true
+      "is_timeout": false
     },
     {
       "id": 5,
@@ -50,7 +50,7 @@
         "很"
       ],
       "user_answer": "0",
-      "elapsed_seconds": 0.42923,
+      "elapsed_seconds": 0.921123,
       "reaction_time_limit_seconds": 1.0,
       "is_timeout": false
     }
