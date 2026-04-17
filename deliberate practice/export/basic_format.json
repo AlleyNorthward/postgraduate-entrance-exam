@@ -1,0 +1,36 @@
+[
+  {
+    "id": 1,
+    "question": "1+1=?",
+    "answer": "2"
+  },
+  {
+    "id": 2,
+    "question": "2+2=?",
+    "answer": "4"
+  },
+  {
+    "id": 3,
+    "question": "3+3=?",
+    "answer": "6"
+  },
+  {
+    "id": 4,
+    "question": [
+      "数组测试,",
+      "诶嘿."
+    ],
+    "answer": "enen"
+  },
+  {
+    "id": 5,
+    "question": [
+      "嘿嘿嘿哈, ",
+      "嗯嗯"
+    ],
+    "answer": [
+      "hello, ",
+      "很"
+    ]
+  }
+]
