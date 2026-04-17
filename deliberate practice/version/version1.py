@@ -1,6 +1,5 @@
 import json
 import random
-import time
 from pathlib import Path
 from typing import List, Dict, Any, Optional, Tuple, Union
 
@@ -42,46 +41,17 @@ def normalize_question(item: Dict[str, Any]) -> Dict[str, Any]:
         "answer": item["answer"]
     }
 
+def export_wrong_questions(export_path: Path, wrong_questions: List[Dict[str, Any]]) -> None:
+    export_path.parent.mkdir(parents=True, exist_ok=True)
 
-def get_reaction_time_limit_seconds() -> Optional[float]:
-    while True:
-        text = input("请输入反应限时(秒), 直接回车表示不启用: ").strip()
-        if text == "":
-            return None
+    unique_map = {}
+    for q in wrong_questions:
+        unique_map[str(q["id"])] = {
+            "id": q["id"],
+            "question": q["question"],
+            "answer": q["answer"]
+        }
 
-        try:
-            value = float(text)
-            if value > 0:
-                return value
-        except ValueError:
-            pass
-
-        print("输入无效,请重新输入.")
-
-
-def build_review_record(
-    q: Dict[str, Any],
-    user_answer: str,
-    elapsed_seconds: float,
-    reaction_time_limit_seconds: Optional[float],
-) -> Dict[str, Any]:
-    is_timeout = (
-        reaction_time_limit_seconds is not None
-        and elapsed_seconds > reaction_time_limit_seconds
-    )
-
-    return {
-        "id": q["id"],
-        "question": q["question"],
-        "answer": q["answer"],
-        "user_answer": user_answer,
-        "elapsed_seconds": round(elapsed_seconds, 6),
-        "reaction_time_limit_seconds": None if reaction_time_limit_seconds is None else round(reaction_time_limit_seconds, 6),
-        "is_timeout": is_timeout,
-    }
-
-
-def sort_records_by_id(records: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
     def sort_key(item: Dict[str, Any]):
         qid = item.get("id")
         try:
@@ -89,23 +59,10 @@ def sort_records_by_id(records: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
         except (TypeError, ValueError):
             return str(qid)
 
-    return sorted(records, key=sort_key)
-
-
-def export_review_records(
-    export_path: Path,
-    wrong_records: List[Dict[str, Any]],
-    timeout_records: List[Dict[str, Any]],
-) -> None:
-    export_path.parent.mkdir(parents=True, exist_ok=True)
-
-    export_data = {
-        "wrong": sort_records_by_id(wrong_records),
-        "time out": sort_records_by_id(timeout_records),
-    }
+    sorted_questions = sorted(unique_map.values(), key=sort_key)
 
     with export_path.open("w", encoding="utf-8") as f:
-        json.dump(export_data, f, ensure_ascii=False, indent=2)
+        json.dump(sorted_questions, f, ensure_ascii=False, indent=2)
 
 
 def format_multiline_text(value: Union[str, List[Any]]) -> str:
@@ -114,19 +71,14 @@ def format_multiline_text(value: Union[str, List[Any]]) -> str:
     return str(value)
 
 
-def run_quiz_50_times(
-    questions: List[Dict[str, Any]],
-    reaction_time_limit_seconds: Optional[float],
-) -> Tuple[List[Dict[str, Any]], List[Dict[str, Any]]]:
+def run_quiz_50_times(questions: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
     if not questions:
         print("题库为空,无法抽题.")
-        return [], []
+        return []
 
     original_pool = questions[:]
     current_pool = questions[:]
-    wrong_records: List[Dict[str, Any]] = []
-    timeout_records: List[Dict[str, Any]] = []
-    recorded_ids = set()
+    wrong_questions = []
 
     for round_idx in range(1, DRAW_COUNT + 1):
         if not current_pool:
@@ -141,16 +93,9 @@ def run_quiz_50_times(
         print(f"题目 ID: {q['id']}")
         print(f"题目: {format_multiline_text(q['question'])}")
 
-        if reaction_time_limit_seconds is not None:
-            print(f"本题限时: {reaction_time_limit_seconds:g} 秒")
-
-        start_time = time.perf_counter()
         user_answer = input("请输入你的回答: ").strip()
-        elapsed = time.perf_counter() - start_time
-
         print(f"你的输入: {user_answer}")
         print(f"参考回答: {format_multiline_text(q['answer'])}")
-        print(f"作答用时: {elapsed:.3f} 秒")
 
         while True:
             judge = input("判断结果:回答正确 1,回答错误 0: ").strip()
@@ -158,58 +103,25 @@ def run_quiz_50_times(
                 break
             print("输入无效,请重新输入 1 或 0.")
 
-        is_timeout = (
-            reaction_time_limit_seconds is not None
-            and elapsed > reaction_time_limit_seconds
-        )
-
-        qid_text = str(q["id"])
-
         if judge == "0":
-            if qid_text not in recorded_ids:
-                wrong_records.append(
-                    build_review_record(
-                        q=q,
-                        user_answer=user_answer,
-                        elapsed_seconds=elapsed,
-                        reaction_time_limit_seconds=reaction_time_limit_seconds,
-                    )
-                )
-                recorded_ids.add(qid_text)
-            print("记录为: 错误题.\n")
+            wrong_questions.append(q)
 
-        elif is_timeout:
-            if qid_text not in recorded_ids:
-                timeout_records.append(
-                    build_review_record(
-                        q=q,
-                        user_answer=user_answer,
-                        elapsed_seconds=elapsed,
-                        reaction_time_limit_seconds=reaction_time_limit_seconds,
-                    )
-                )
-                recorded_ids.add(qid_text)
-            print("记录为: 超时但正确题.\n")
-
-        else:
-            print("回答正确.\n")
-
-    return wrong_records, timeout_records
+    return wrong_questions
 
 
-def process_single_json(json_path: Path, reaction_time_limit_seconds: Optional[float]) -> None:
+def process_single_json(json_path: Path) -> None:
     print(f"\n开始处理: {json_path}")
 
     raw_questions = load_questions_from_file(json_path)
     questions = [normalize_question(item) for item in raw_questions]
 
-    wrong_records, timeout_records = run_quiz_50_times(questions, reaction_time_limit_seconds)
+    wrong_questions = run_quiz_50_times(questions)
 
     relative_path = json_path.relative_to(ASSETS_DIR)
     export_path = EXPORT_DIR / relative_path
 
-    export_review_records(export_path, wrong_records, timeout_records)
-    print(f"\n记录已导出到: {export_path}")
+    export_wrong_questions(export_path, wrong_questions)
+    print(f"\n错题已导出到: {export_path}")
 
 
 def list_directory_entries(current_dir: Path) -> Tuple[List[Path], List[Path]]:
@@ -284,15 +196,13 @@ def main():
         print(f"找不到目录: {ASSETS_DIR.resolve()}")
         return
 
-    reaction_time_limit_seconds = get_reaction_time_limit_seconds()
-
     while True:
         json_path = choose_json_file_step_by_step(ASSETS_DIR)
         if json_path is None:
             print("已退出.")
             break
 
-        process_single_json(json_path, reaction_time_limit_seconds)
+        process_single_json(json_path)
 
         again = input("\n是否继续处理其他文件? 输入 1 继续, 其他任意键退出: ").strip()
         if again != "1":
