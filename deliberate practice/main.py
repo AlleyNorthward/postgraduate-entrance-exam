@@ -4,10 +4,8 @@ import time
 from pathlib import Path
 from typing import List, Dict, Any, Optional, Tuple, Union
 
-
 ASSETS_DIR = Path("assets")
 EXPORT_DIR = Path("export")
-DRAW_COUNT = 50
 
 def ensure_question_stats(q: Dict[str, Any]) -> None:
     if "error_count" not in q:
@@ -17,14 +15,12 @@ def ensure_question_stats(q: Dict[str, Any]) -> None:
     if "train_count" not in q:
         q["train_count"] = 0
 
-
 def save_assets_questions(json_path: Path, questions: List[Dict[str, Any]]) -> None:
     try:
         with json_path.open("w", encoding="utf-8") as f:
             json.dump(questions, f, ensure_ascii=False, indent=2)
     except Exception as e:
         print(f"写回 assets 失败: {e}")
-
 
 def load_questions_from_file(json_path: Path) -> List[Dict[str, Any]]:
     with json_path.open("r", encoding="utf-8") as f:
@@ -39,7 +35,6 @@ def load_questions_from_file(json_path: Path) -> List[Dict[str, Any]]:
                 return data[key]
 
     raise ValueError(f"{json_path} 的 JSON 格式不符合要求.")
-
 
 def normalize_question(item: Dict[str, Any]) -> Dict[str, Any]:
     if not isinstance(item, dict):
@@ -63,7 +58,6 @@ def normalize_question(item: Dict[str, Any]) -> Dict[str, Any]:
         "train_count": item.get("train_count", 0),
     }
 
-
 def get_reaction_time_limit_seconds() -> Optional[float]:
     while True:
         text = input("请输入反应限时(秒), 直接回车表示不启用: ").strip()
@@ -79,6 +73,18 @@ def get_reaction_time_limit_seconds() -> Optional[float]:
 
         print("输入无效,请重新输入.")
 
+def get_draw_count() -> int:
+    while True:
+        text = input("请输入每轮抽题数量, 默认10: ").strip()
+        if text == "":
+            return 10
+        try:
+            value = int(text)
+            if value > 0:
+                return value
+        except ValueError:
+            pass
+        print("输入无效,请重新输入.")
 
 def build_review_record(
     q: Dict[str, Any],
@@ -101,7 +107,6 @@ def build_review_record(
         "is_timeout": is_timeout,
     }
 
-
 def sort_records_by_id(records: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
     def sort_key(item: Dict[str, Any]):
         qid = item.get("id")
@@ -111,7 +116,6 @@ def sort_records_by_id(records: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
             return str(qid)
 
     return sorted(records, key=sort_key)
-
 
 def export_review_records(
     export_path: Path,
@@ -128,17 +132,16 @@ def export_review_records(
     with export_path.open("w", encoding="utf-8") as f:
         json.dump(export_data, f, ensure_ascii=False, indent=2)
 
-
 def format_multiline_text(value: Union[str, List[Any]]) -> str:
     if isinstance(value, list):
         return "\n".join(str(x) for x in value)
     return str(value)
 
-
 def run_quiz_50_times(
     questions: List[Dict[str, Any]],
     reaction_time_limit_seconds: Optional[float],
-    raw_questions_ref: List[Dict[str, Any]],   # 新增：用于回写
+    draw_count: int,
+    raw_questions_ref: List[Dict[str, Any]],
 ) -> Tuple[List[Dict[str, Any]], List[Dict[str, Any]]]:
 
     if not questions:
@@ -151,7 +154,7 @@ def run_quiz_50_times(
     timeout_records: List[Dict[str, Any]] = []
     recorded_ids = set()
 
-    for round_idx in range(1, DRAW_COUNT + 1):
+    for round_idx in range(1,  draw_count+ 1):
         if not current_pool:
             current_pool = original_pool[:]
             print("\n当前轮题库已抽完,已重新载入题库继续抽题.")
@@ -160,23 +163,24 @@ def run_quiz_50_times(
         current_pool.remove(q)
 
         print("\n" + "=" * 60)
-        print(f"第 {round_idx}/{DRAW_COUNT} 次抽题")
-        print(f"题目 ID: {q['id']}")
-        print(f"题目: {format_multiline_text(q['question'])}")
+        print(f"第 {round_idx}/{draw_count} 次抽题")
+        print(f"[题目 ID]: {q['id']}")
+        print(f"[题目]: {format_multiline_text(q['question'])}")
 
         if reaction_time_limit_seconds is not None:
-            print(f"本题限时: {reaction_time_limit_seconds:g} 秒")
+            print(f"[本题限时]: {reaction_time_limit_seconds:g} 秒")
 
         start_time = time.perf_counter()
         user_answer = input("请输入你的回答: ").strip()
         elapsed = time.perf_counter() - start_time
 
-        print(f"你的输入: {user_answer}")
-        print(f"参考回答: {format_multiline_text(q['answer'])}")
-        print(f"作答用时: {elapsed:.3f} 秒")
+        print(f"[你的输入]: \n{user_answer}")
+        print()
+        print(f"[参考回答]: \n{format_multiline_text(q['answer'])}")
+        print(f"[作答用时]: {elapsed:.3f} 秒")
 
         while True:
-            judge = input("判断结果:回答正确 1,回答错误 0: ").strip()
+            judge = input("[判断结果]:回答正确 1,回答错误 0: ").strip()
             if judge in ("1", "0"):
                 break
             print("输入无效,请重新输入 1 或 0.")
@@ -230,8 +234,7 @@ def run_quiz_50_times(
 
     return wrong_records, timeout_records
 
-
-def process_single_json(json_path: Path, reaction_time_limit_seconds: Optional[float]) -> None:
+def process_single_json(json_path: Path, reaction_time_limit_seconds: Optional[float], draw_count: int) -> None:
     print(f"\n开始处理: {json_path}")
 
     raw_questions = load_questions_from_file(json_path)
@@ -240,6 +243,7 @@ def process_single_json(json_path: Path, reaction_time_limit_seconds: Optional[f
     wrong_records, timeout_records = run_quiz_50_times(
         questions,
         reaction_time_limit_seconds,
+        draw_count,
         raw_questions
     )
 
@@ -251,7 +255,6 @@ def process_single_json(json_path: Path, reaction_time_limit_seconds: Optional[f
     export_review_records(export_path, wrong_records, timeout_records)
     print(f"\n记录已导出到: {export_path}")
 
-
 def list_directory_entries(current_dir: Path) -> Tuple[List[Path], List[Path]]:
     dirs = sorted([p for p in current_dir.iterdir() if p.is_dir()], key=lambda x: x.name.lower())
     files = sorted(
@@ -259,7 +262,6 @@ def list_directory_entries(current_dir: Path) -> Tuple[List[Path], List[Path]]:
         key=lambda x: x.name.lower()
     )
     return dirs, files
-
 
 def choose_json_file_step_by_step(root_dir: Path) -> Optional[Path]:
     current_dir = root_dir
@@ -318,13 +320,13 @@ def choose_json_file_step_by_step(root_dir: Path) -> Optional[Path]:
 
         current_dir = path
 
-
 def main():
     if not ASSETS_DIR.exists():
         print(f"找不到目录: {ASSETS_DIR.resolve()}")
         return
 
     reaction_time_limit_seconds = get_reaction_time_limit_seconds()
+    draw_count = get_draw_count()
 
     while True:
         json_path = choose_json_file_step_by_step(ASSETS_DIR)
@@ -332,12 +334,11 @@ def main():
             print("已退出.")
             break
 
-        process_single_json(json_path, reaction_time_limit_seconds)
+        process_single_json(json_path, reaction_time_limit_seconds, draw_count)
 
         again = input("\n是否继续处理其他文件? 输入 1 继续, 其他任意键退出: ").strip()
         if again != "1":
             break
-
 
 if __name__ == "__main__":
     main()
