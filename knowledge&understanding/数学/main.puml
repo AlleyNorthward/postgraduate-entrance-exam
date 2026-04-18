@@ -1,0 +1,13 @@
+@startuml 线性代数1_1_4
+
+skinparam DefaultTextAlignment center
+
+class 总结{
+    + 分析时先考虑{S, operations, axioms}
+    + 考虑单位元,逆元存在的意义
+    + 思考推出向量空间的动机
+    + 看到Fn时明确元素是组
+    + 思考C与Fn在operations和axioms的不同
+}
+
+@enduml 
