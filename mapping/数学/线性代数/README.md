@@ -12,6 +12,18 @@
 <details>
   <summary><strong>🟦 1A $R^n与C^n$ </strong></summary>
 
+<div align="center">
+
+| key | value |
+|:---:|:---:|
+| id | 1 |
+| 知识与理解 | [见此](../../../knowledge&understanding/数学/线性代数/1.md) |
+| 题目汇总 | 无 |
+| 做题汇总 | 无|
+| 创建时间 | 2026/4/18 12:27 |
+| 关联Mapping | |
+
+</div>
 
 
 </details>
