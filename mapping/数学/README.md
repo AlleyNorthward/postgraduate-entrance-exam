@@ -14,7 +14,7 @@
 <details>
   <summary><strong>🟦 函数相关</strong></summary>
 
-
+[函数相关](../../knowledge_understanding/数学/通用知识/函数相关.md)
 
 </details>
 
