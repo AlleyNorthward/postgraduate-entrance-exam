@@ -1,0 +1,21 @@
+@startuml 000集合相关
+
+class 集合基本形式{
+    + {变量|条件}
+    + {变量:条件}
+    + {元素}
+}
+
+note left of 集合基本形式
+这个很重要. 条件只有true或者false, 
+可能会对某集合进行筛选.
+元素则类似枚举.
+变量则是指在集合中存在的形式.
+end note
+
+note bottom of 集合基本形式
+复数中, 变量值a+bi, {a+bi:a,b属于R}.
+Rn中,变量是组(x1...xn),{(x1...xn):xi属于R,i=1...n}
+end note
+
+@enduml
