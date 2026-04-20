@@ -1,0 +1,33 @@
+@startuml mapping
+
+class Mapping{
+    + KN-ID: 主键
+    + KN-IDs[]: 关系
+    + PR-IDs[]
+    + PS-IDs[]
+    + ER-iDs[]
+}
+
+class Anki{
+    + KN-ID:主键
+}
+
+class Problem{
+    + PR-ID:主键
+    + KN-IDs[]
+    + PS-ID
+}
+
+class Process{
+    + PS-ID:主键
+    + KN-IDs:[]
+}
+
+class ErrorCase{
+    + ER-ID: 主键
+    + KN-IDs[]
+    + PR-ID
+    + PS-ID
+}
+
+@enduml
