@@ -1,0 +1,36 @@
+@startuml 状态层模型
+
+class Process
+class ProcessStep
+
+hide Process members
+hide ProcessStep members
+
+enum StateType {
+  # 表达式
+  # 矩阵
+  # 向量组
+  # 数值结果
+  # 结构对象
+}
+
+class State {
+  ~ 描述
+  ~ 类型: StateType
+}
+
+class Transition {
+  ~ 动作
+}
+
+State --> Transition : 输入
+Transition --> State : 输出
+
+ProcessStep --> State : 输入状态
+ProcessStep --> State : 输出状态
+
+ProcessStep --> Transition : 执行动作
+
+Process *-- ProcessStep
+
+@enduml

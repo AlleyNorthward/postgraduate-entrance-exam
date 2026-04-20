@@ -1,0 +1,50 @@
+@startuml 错误分析图
+
+class KnowledgeNode
+class Problem
+class Process
+class ProcessStep
+
+hide KnowledgeNode members
+hide Problem members
+hide Process members
+hide ProcessStep members
+
+enum ErrorType {
+    # 知识错误
+    # 提取错误
+    # 题型识别错误
+    # 方法选择错误
+    # 过程执行错误
+    # 计算错误
+    # 检查遗漏
+}
+
+enum ErrorStage {
+    # 知识层
+    # 题目层
+    # 过程层
+}
+
+class ErrorCase {
+    ~ 描述
+    ~ 类型: ErrorType
+    ~ 阶段: ErrorStage
+    ~ 原因
+    ~ 修正方案
+    ~ 复发条件
+}
+
+class ErrorStep {
+    ~ 步骤描述
+    ~ 是否关键错误: bool
+}
+
+ErrorCase --> Problem
+ErrorCase --> Process
+ErrorCase --> KnowledgeNode
+
+ErrorCase *-- ErrorStep
+ErrorStep --> ProcessStep
+
+@enduml

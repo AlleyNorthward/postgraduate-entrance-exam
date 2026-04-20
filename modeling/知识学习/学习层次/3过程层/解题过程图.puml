@@ -1,0 +1,51 @@
+@startuml 解题过程图
+
+class Problem
+hide Problem members
+
+rectangle 解题过程模型{
+
+    class Condition{
+        ~ 题型
+        ~ 结构特征
+        ~ 求解目标
+    }
+
+    class Process{
+        ~ 入口条件:Condition
+    }
+
+    class ProcessStep{
+        ~ 动作
+    }
+
+    class Branch{
+        ~ 条件
+    }
+
+    class Checkpoint{
+        ~ 检查内容
+    }
+
+}
+
+rectangle 状态层{
+
+    class State{
+        ~ 描述
+    }
+
+}
+
+Process *-- ProcessStep
+
+ProcessStep --> ProcessStep : next
+ProcessStep --> Branch
+ProcessStep --> Checkpoint
+
+ProcessStep --> State : 输入
+ProcessStep --> State : 输出
+Problem --> Condition
+Condition --> Process
+
+@enduml

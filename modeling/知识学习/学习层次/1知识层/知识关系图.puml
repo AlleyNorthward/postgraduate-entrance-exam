@@ -1,0 +1,55 @@
+@startuml 知识关系图
+
+rectangle 知识模型 {
+
+    class KnowledgeContent
+
+    enum KnowledgeType {
+        # 定义
+        # 性质
+        # 定理
+        # 模型
+        # 方法
+        # 结论
+    }
+
+    enum AbstractionLevel {
+        # L1_具体计算
+        # L2_基本概念
+        # L3_性质定理
+        # L4_结构概念
+        # L5_学科框架
+    }
+
+    class KnowledgeNode {
+        ~ name
+        ~ type: KnowledgeType
+        ~ level: AbstractionLevel
+        ~ content:KnowledgeContent
+    }
+
+    hide KnowledgeContent members
+    KnowledgeNode *-- KnowledgeContent
+}
+
+rectangle 关系模型 {
+
+    enum RelationshipType {
+        # 生成
+        # 约束
+        # 等价
+        # 依赖
+    }
+
+    class KnowledgeEdge {
+        ~ from: KnowledgeNode
+        ~ to: KnowledgeNode
+        ~ type: RelationshipType
+    }
+
+}
+
+KnowledgeEdge --> KnowledgeNode : from
+KnowledgeEdge --> KnowledgeNode : to
+
+@enduml

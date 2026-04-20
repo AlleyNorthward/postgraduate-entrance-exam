@@ -1,0 +1,17 @@
+@startuml 知识展开图
+
+class KnowledgeNode
+
+class KnowledgeContent{
+    ~ 定义
+    ~ 直觉
+    ~ 结构
+    ~ 性质
+    ~ 关系
+    ~ 易错
+}
+
+hide KnowledgeNode members
+
+KnowledgeNode *-- KnowledgeContent
+@enduml

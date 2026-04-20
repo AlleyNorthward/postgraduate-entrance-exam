@@ -1,0 +1,35 @@
+@startuml 题目模型_题型抽象版
+
+class KnowledgeNode
+class Process
+
+hide KnowledgeNode members
+hide Process members
+
+rectangle 题目模型{
+
+    enum AbstractProblemType{}
+    hide AbstractProblemType members
+
+    class ProblemType{
+        ~ 名称
+        ~ 学科
+    }
+
+    class Problem{
+       ~ 题型: ProblemType
+       ~ 关联知识: List<KnowledgeNode>
+       ~ 解题过程: Process
+       ~ 输入结构
+       ~ 输出结构
+    }
+
+}
+
+Problem --> KnowledgeNode
+Problem --> Process
+Problem --> ProblemType
+
+ProblemType --> AbstractProblemType
+
+@enduml
