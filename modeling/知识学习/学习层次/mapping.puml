@@ -2,28 +2,25 @@
 
 class Mapping{
     + KN-ID: 主键
-    + KN-IDs[]: 关系
-    + PR-IDs[]
-    + PS-IDs[]
-    + ER-iDs[]
+    + 关系
 }
 
-class Anki{
+class AnkiKnowledge{
     + KN-ID:主键
 }
 
-class Problem{
+class AnkiProblem{
     + PR-ID:主键
     + KN-IDs[]
     + PS-ID
 }
 
-class Process{
+class AnkiProcess{
     + PS-ID:主键
     + KN-IDs:[]
 }
 
-class ErrorCase{
+class AnkiErrorCase{
     + ER-ID: 主键
     + KN-IDs[]
     + PR-ID
