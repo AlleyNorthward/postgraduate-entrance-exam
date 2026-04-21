@@ -1,6 +1,7 @@
 @startuml MappingDesc
 class MappingDesc {
     + id
+    + name
     + 建立时间
 }
 @enduml

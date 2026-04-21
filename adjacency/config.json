@@ -1,0 +1,8 @@
+{
+  "start": 8,
+  "count": 42,
+  "output_dir": "./数学/线性代数/",
+  "filename_template": "KN-0000.md",
+  "content": "\n# 🧠 当前对象\n# 🔗 知识关系\n# 🧩 题目关联\n# ⚙️ 流程关联\n# ❌ 错误关联\n",
+  "overwrite": true
+}
