@@ -1,4 +1,4 @@
-@startuml 题目模型_题型抽象版
+@startuml 题目模型图
 
 class KnowledgeNode
 class Process

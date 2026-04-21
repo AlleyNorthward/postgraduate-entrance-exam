@@ -1,8 +1,7 @@
-@startuml mapping
+@startuml Mapping
 
 class Mapping{
     + KN-ID: 主键
-    + 关系
 }
 
 class AnkiKnowledge{
@@ -17,7 +16,7 @@ class AnkiProblem{
 
 class AnkiProcess{
     + PS-ID:主键
-    + KN-IDs:[]
+    + KN-IDs[]
 }
 
 class AnkiErrorCase{
@@ -26,5 +25,23 @@ class AnkiErrorCase{
     + PR-ID
     + PS-ID
 }
+
+class Adjacency{
+    + KN-IDs[]
+    + PR-IDs[]
+    + PS-IDs[]
+    + ER-IDs[]
+}
+
+AnkiKnowledge --> Mapping
+AnkiProblem --> Mapping
+AnkiProcess --> Mapping
+AnkiErrorCase --> Mapping
+Mapping --> Adjacency
+
+Adjacency ..> AnkiKnowledge
+Adjacency ..> AnkiProblem
+Adjacency ..> AnkiProcess
+Adjacency ..> AnkiErrorCase
 
 @enduml
