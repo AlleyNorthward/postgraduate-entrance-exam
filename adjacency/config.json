@@ -1,8 +1,50 @@
 {
-  "start": 8,
-  "count": 42,
+  "start": 14,
+  "count": 36,
   "output_dir": "./数学/线性代数/",
   "filename_template": "KN-0000.md",
-  "content": "\n# 🧠 当前对象\n# 🔗 知识关系\n# 🧩 题目关联\n# ⚙️ 流程关联\n# ❌ 错误关联\n",
-  "overwrite": true
+  "overwrite": false,
+
+  "content_blocks": [
+    {
+      "type": "markdown",
+      "text": "# 🧠 当前对象"
+    },
+    {
+      "type": "table",
+      "title": "# 🔗 知识关系",
+      "columns": ["id", "name", "relation", "target"],
+      "rows": 0
+    },
+    {
+      "type": "markdown",
+      "text": "# 🧩 题目关联"
+    },
+    {
+      "type": "table",
+      "title": "",
+      "columns": ["id", "name", "relation", "target"],
+      "rows": 0
+    },
+    {
+      "type": "markdown",
+      "text": "# ⚙️ 流程关联"
+    },
+    {
+      "type": "table",
+      "title": "",
+      "columns": ["id", "name", "relation", "target"],
+      "rows": 0
+    },
+    {
+      "type": "markdown",
+      "text": "# ❌ 错误关联"
+    },
+    {
+      "type": "table",
+      "title": "",
+      "columns": ["id", "name", "relation", "target"],
+      "rows": 0
+    }
+  ]
 }
