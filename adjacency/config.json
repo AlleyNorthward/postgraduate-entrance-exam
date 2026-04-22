@@ -1,9 +1,9 @@
 {
-  "start": 14,
-  "count": 36,
+  "start": 21,
+  "count": 30,
   "output_dir": "./数学/线性代数/",
   "filename_template": "KN-0000.md",
-  "overwrite": false,
+  "overwrite": true,
 
   "content_blocks": [
     {
@@ -15,6 +15,16 @@
       "title": "# 🔗 知识关系",
       "columns": ["id", "name", "relation", "target"],
       "rows": 0
+    },
+    {
+      "type": "markdown",
+      "text": "# 🌿 举例"
+    },
+    {
+      "type": "table",
+      "title": "",
+      "columns": ["id", "name"],
+      "rows":0
     },
     {
       "type": "markdown",
