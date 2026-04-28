@@ -1,0 +1,119 @@
+[
+  {
+    "id": 1,
+    "question":[
+      "前缀: 外/出."
+    ],
+    "answer":[
+      "e/ex/ef"
+    ]
+  },
+  {
+    "id": 2,
+    "question":[
+      "前缀: 内/进."
+    ],
+    "answer":[
+      "in/im"
+    ]
+  },
+  {
+    "id": 3,
+    "question":[
+      "前缀: 动态-向前."
+    ],
+    "answer":[
+      "pro"
+    ]
+  },
+  {
+    "id": 4,
+    "question": [
+      "前缀: 静态-在前/预先/提前."
+    ],
+    "answer":[
+      "pre"
+    ]
+  },
+  {
+    "id": 5,
+    "question": [
+      "前缀: 回/重新/再次."
+    ],
+    "answer": [
+      "re"
+    ]
+  },
+  {
+    "id":6,
+    "question": [
+      "前缀: 聚集(一起/共同)."
+    ],
+    "answer":[
+      "co/con/com/col"
+    ]
+  },
+  {
+    "id":7,
+    "question":[
+      "前缀: 分散(分开)."
+    ],
+    "answer":[
+      "di/dis/dif"
+    ]
+  },
+  {
+    "id":8,
+    "question":[
+      "前缀: 上/超过."
+    ],
+    "answer":[
+      "super/over/sur"
+    ]
+  },
+  {
+    "id":9,
+    "question":[
+      "前缀: 下/不足."
+    ],
+    "answer":[
+      "under/de/sub/sup"
+    ]
+  },
+  {
+    "id":10,
+    "question":[
+      "前缀: 转移/转变."
+    ],
+    "answer":[
+      "trans"
+    ]
+  },
+  {
+    "id":11,
+    "question":[
+      "前缀: 相互之间."
+    ],
+    "answer":[
+      "inter"
+    ]
+  },
+  {
+    "id":12,
+    "question":[
+      "前缀: a+双写辅音字母."
+    ],
+    "answer":[
+      "强调无意义"
+    ]
+  },
+  {
+    "id": 13,
+    "question":[
+      "前缀: 否定前缀."
+    ],
+    "answer":[
+      "un/in/im/dis/ab/il"
+    ]
+  }
+]
